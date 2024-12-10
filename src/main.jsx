@@ -8,6 +8,7 @@ import DashboardLayout from "./pages/DashboardLayout.jsx";
 import Transfer from "./pages/Transfer.jsx";
 import Register from "./pages/Register.jsx";
 import Topup from "./pages/Topup.jsx";
+import Signout from "./pages/Signout.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -20,6 +21,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/register" element={<Register />} />
           <Route path="/topup" element={<Topup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signout" element={<Signout />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -51,13 +51,6 @@ function Login() {
             >
               Login di sini
             </NavLink>
-            {/* <a
-              href="#"
-              className="text-[#19918F] 
-            hover:underline text-xs"
-            >
-              Daftar di sini
-            </a> */}
           </p>
         </div>
         <div>
