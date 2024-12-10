@@ -3,10 +3,13 @@ import Avatar from "./Avatar";
 import viewIcon from "../assets/view.png";
 import Send from "../assets/send.png";
 import Plus from "../assets/plus.png";
-import { FaBeer } from "react-icons/fa";
+import { useTheme } from "../hooks/useTheme";
+
 function Hero() {
   const [showBalance, setShowBalance] = useState(true);
   const [users, setUsers] = useState([]);
+  const { theme } = useTheme();
+  const themeColor = theme === "green" ? "#19918F" : "#007BFF";
   useEffect(() => {
     async function getData() {
       const url = "http://localhost:3000/users";
@@ -32,7 +35,7 @@ function Hero() {
         <div className="flex items-center justify-center">
           <div className="mr-auto">
             <h1 className="text-black text-6xl font-bold">
-              {`Good Morning, ${users.name}`}
+              {`Good Morning, ${users[0]?.name}`}
             </h1>
             <p className="text-black text-2xl mt-3">
               Check all your incoming and outgoing transactions here
@@ -41,7 +44,10 @@ function Hero() {
           <Avatar />
         </div>
         <div className="flex mt-[4.5rem] gap-x-12">
-          <div className="bg-[#19918F] p-12 rounded-2xl w-1/5">
+          <div
+            className="bg-[#19918F] p-12 rounded-2xl w-1/5 text-white"
+            style={{ backgroundColor: themeColor }}
+          >
             <p>Account No.</p>
             <p className="mt-3 font-bold">{`${users[0]?.account_number}`}</p>
           </div>
@@ -49,7 +55,7 @@ function Hero() {
             <p>Balance</p>
             <span className="flex items-center mt-3 gap-x-2">
               <p className="font-bold">
-                {showBalance ? `${users[0]?.balance}` : "Rp ********"}
+                {showBalance ? `Rp${users[0]?.balance}` : "Rp ********"}
               </p>
               <img
                 src={viewIcon}
@@ -59,10 +65,16 @@ function Hero() {
               />
             </span>
           </div>
-          <div className="bg-[#19918F] p-2 rounded-lg w-10 h-10 flex items-center justify-center ml-auto my-16">
+          <div
+            className="bg-[#19918F] p-2 rounded-lg w-10 h-10 flex items-center justify-center ml-auto my-16"
+            style={{ backgroundColor: themeColor }}
+          >
             <img src={Send} />
           </div>
-          <div className="bg-[#19918F] p-2 rounded-lg w-10 h-10 flex items-center justify-center ml-auto my-16">
+          <div
+            className="bg-[#19918F] p-2 rounded-lg w-10 h-10 flex items-center justify-center ml-auto my-16"
+            style={{ backgroundColor: themeColor }}
+          >
             <img src={Plus} />
           </div>
         </div>
@@ -74,10 +86,6 @@ function Hero() {
               placeholder="Search"
             />
           </form>
-          <h3>
-            Lets go for a <FaBeer />?
-          </h3>
-          {/* <p className="test-xs  text-black">Show</p> */}
         </div>
       </section>
     </>

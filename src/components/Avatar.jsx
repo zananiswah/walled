@@ -25,7 +25,7 @@ function Avatar() {
   return (
     <div className="flex items-center gap-x-4 ml-auto">
       <span className="text-right">
-        <p className="text-black font-bold">{`${users[0]?.email}`}</p>
+        <p className="text-black font-bold">{`${users[0]?.name}`}</p>
         <p className="text-black">Personal Account</p>
       </span>
       <div
