@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { useTheme } from "../hooks/useTheme";
+import { CiSun } from "react-icons/ci";
 
 function NavItems({ menu }) {
   const navigate = useNavigate();
@@ -30,11 +31,17 @@ function NavItems({ menu }) {
           </NavLink>
         );
       })}
-      <button
+      <div
+        onClick={toggleTheme}
+        className="px-4 py-4 hover:scale-105 transition-all size-2x"
+      >
+        <CiSun />
+      </div>
+      {/* <button
         onClick={toggleTheme}
         className="bg-[#19918F] text-white rounded-full px-4 py-4 hover:scale-105 transition-all"
         style={{ backgroundColor: themeColor }}
-      ></button>
+      ></button> */}
     </ul>
   );
 }
