@@ -1,71 +1,109 @@
-function Table() {
+import useFetch from "../hooks/useFetch";
+
+const TABLE_HEAD = [
+  "Date & Time",
+  "Type",
+  "From / To",
+  "Description",
+  "Amount",
+];
+
+function Transaction() {
+  const { data: transactions } = useFetch("http://localhost:3000/transactions");
+
   return (
-    <>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <div>
+      <div className="flex w-3/4 mx-auto mt-10 justify-between">
+        <input
+          name="search"
+          type="text"
+          placeholder="Search"
+          className="placeholder-white text-white bg-[#19918F] w-[300px] h-[50px] rounded-[10px] pl-6"
+        />
+        <div className="flex">
+          <div className="flex gap-x-4 items-center mr-12">
+            <p className="text-[#737373]">Show</p>
+            <select
+              name="limit"
+              id="limit"
+              className="text-white bg-[#19918F] py-3 px-4 rounded-[10px] border-r-8 border-transparent"
+            >
+              <option value="10">Limit 10 transactions</option>
+              <option value="20">Limit 20 transactions</option>
+            </select>
+          </div>
+          <div className="flex gap-x-2 items-center">
+            <p className="text-[#737373] mr-3">Sort by</p>
+            <select
+              name="date"
+              id="date"
+              className="text-white bg-[#19918F] py-3 px-4 rounded-[10px] border-r-8 border-transparent"
+            >
+              <option value="date">Date</option>
+            </select>
+            <select
+              name="sortby"
+              id="sortby"
+              className="text-white bg-[#19918F] py-3 px-4 rounded-[10px] border-r-8 border-transparent bg-blue"
+            >
+              <option value="desc">Descending</option>
+              <option value="asc">Ascending</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div className="w-full mx-auto px-8 py-6">
+        <table className="table-auto text-black border-collapse border border-slate-500 mt-10 w-full overflow-hidden">
+          <thead className="bg-white">
             <tr>
-              <th scope="col" className="px-6 py-3">
-                Product name
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Color
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Category
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Price
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Action
-              </th>
+              {TABLE_HEAD.map((head, index) => (
+                <th key={index} className="border border-[#EDEDED] py-2 px-4">
+                  {head}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            <tr className="odd:bg-[#EDEDED] odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Apple MacBook Pro 17"
-              </th>
-              <td className="px-6 py-4">Silver</td>
-              <td className="px-6 py-4">Laptop</td>
-              <td className="px-6 py-4">$2999</td>
-              <td className="px-6 py-4">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+            {transactions.slice(0, 10).map((transaction, index) => {
+              const formattedDate = new Date(transaction.date * 1000);
+
+              return (
+                <tr
+                  key={index}
+                  className={`${
+                    transaction.type === "DEBIT" ? "bg-[#F6F6F6]" : "bg-white"
+                  }`}
                 >
-                  Edit
-                </a>
-              </td>
-            </tr>
-            <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Microsoft Surface Pro
-              </th>
-              <td className="px-6 py-4">White</td>
-              <td className="px-6 py-4">Laptop PC</td>
-              <td className="px-6 py-4">$1999</td>
-              <td className="px-6 py-4">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
-              </td>
-            </tr>
+                  <td className="border border-[#EDEDED] py-2 px-4">
+                    {formattedDate.toLocaleString()}
+                  </td>
+                  <td className="border border-[#EDEDED] py-2 px-4">
+                    {transaction.type}
+                  </td>
+                  <td className="border border-[#EDEDED] py-2 px-4">
+                    {transaction.address}
+                  </td>
+                  <td className="border border-[#EDEDED] py-2 px-4">
+                    {transaction.desc}
+                  </td>
+                  <td
+                    className={`border border-[#EDEDED] py-2 px-4 ${
+                      transaction.type === "DEBIT"
+                        ? "text-red-500"
+                        : "text-[#219653]"
+                    }`}
+                  >
+                    {transaction.type === "DEBIT" ? "-" : "+"}{" "}
+                    {new Intl.NumberFormat("id-ID").format(transaction.amount)}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 }
 
-export default Table;
+export default Transaction;

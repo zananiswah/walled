@@ -41,7 +41,7 @@ function Login() {
 
       if (user) {
         // Jika pengguna ditemukan, simpan data login di localStorage
-        localStorage.setItem("login", JSON.stringify(user.email));
+        localStorage.setItem("login", JSON.stringify(user));
         navigate("/dashboard");
       } else {
         // Jika tidak ditemukan, tampilkan pesan error
